@@ -2,6 +2,8 @@
 
 > Turn a Raspberry Pi 4 and a USB SSD into a home NAS with remote access via Tailscale, accessible from Windows, Linux, and Android. No experience required.
 
+![Smart Vault — 3D printed Raspberry Pi NAS enclosure](images/smart-vault.jpg)
+
 ---
 
 ## Table of Contents
