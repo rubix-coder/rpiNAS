@@ -6,7 +6,7 @@
 |-----------|-------------|-----|-------------|
 | **Raspberry Pi 4 Model B** | 4GB RAM version | More RAM = smoother under load. 2GB works but 4GB is better. | $55 – $75 |
 | **Power Supply** | Official Raspberry Pi 15W USB-C (5V/3A) | The Pi 4 draws up to 3A peak. Underpowered supplies cause random crashes and data corruption. **Do not skip this.** | $8 – $12 |
-| **MicroSD Card** | 32GB, Class 10 / A1 or better | This is the Pi's "hard drive" for the OS. The SSD holds your data. Sandisk, Samsung, Kingston are reliable brands. | $8 – $15 |
+| **MicroSD Card** | 32GB, Class 10 / A1 or better | This is the Pi's "hard drive" for the OS. The SSD holds your data. SanDisk and Samsung are reliable brands. | $8 – $15 |
 | **USB SSD or HDD** | Any USB 3.0 SSD (1TB+ recommended) | SSD is faster and more durable than HDD. A USB 3.0 drive plugged into the Pi's USB 3.0 port gives best performance. | $70 – $120 |
 | **USB cable** | Usually included with the SSD | USB-A to USB-A, or USB-A to USB-C depending on your drive | $0 – $10 |
 
@@ -14,12 +14,12 @@
 
 ---
 
-## Recommended Specific Parts (Author's Setup)
+## Recommended Parts (Example Setup)
 
 - **Pi:** Raspberry Pi 4 Model B 4GB
-- **SSD:** Kingston XS1000 1TB (red, USB 3.2 Gen 2) — compact, bus-powered, no separate power brick needed
+- **SSD:** Any 1TB portable USB SSD (USB 3.0/3.2, bus-powered) — compact and needs no separate power brick
 - **Power:** Official Raspberry Pi 27W USB-C power supply
-- **SD Card:** SanDisk 32GB Ultra MicroSD (Class 10, A1)
+- **SD Card:** Any 32GB MicroSD (Class 10, A1) — SanDisk and Samsung are reliable choices
 
 ---
 

@@ -12,7 +12,7 @@ You will install two apps:
 
 - Samba is set up on the Pi ([Samba Setup](04-samba-setup.md))
 - Tailscale is set up on the Pi ([Tailscale Setup](05-tailscale-setup.md))
-- You know the Pi's Tailscale IP (e.g. `100.67.250.22`)
+- You know the Pi's Tailscale IP (run `tailscale ip -4` on the Pi to find it)
 
 ---
 
@@ -31,7 +31,7 @@ If you only want to access the NAS from home (same Wi-Fi), you can skip this. Fo
 
 5. Your Pi will appear in the device list with its Tailscale IP
 
-The Pi is now reachable from your phone at `100.67.250.22` from anywhere with internet.
+The Pi is now reachable from your phone from anywhere with internet.
 
 ---
 
@@ -56,15 +56,15 @@ Solid Explorer is a two-panel file manager that natively supports SMB network sh
 5. Fill in:
    | Field | Value |
    |-------|-------|
-   | Host / IP | `100.67.250.22` (Tailscale IP) |
-   | Share | `Kingston` |
-   | Username | `bmp` |
+   | Host / IP | your Pi's Tailscale IP (e.g. `100.x.x.x`) |
+   | Share | `NAS` (or whatever share name you set) |
+   | Username | your Samba username |
    | Password | your Samba password |
    | Domain | (leave blank) |
 
 6. Tap **Connect** / **Test** â€” if successful, tap **Save**
 
-7. The `Kingston` share appears as a bookmark in Solid Explorer
+7. The `NAS` share appears as a bookmark in Solid Explorer
 
 You can now browse, copy, move, and open files on your NAS directly from your phone.
 
@@ -91,9 +91,9 @@ FolderSync automatically syncs selected phone folders to the NAS on a schedule â
    | Field | Value |
    |-------|-------|
    | Account name | `Home NAS` (anything you like) |
-   | Server | `100.67.250.22` |
-   | Share | `Kingston` |
-   | Username | `bmp` |
+   | Server | your Pi's Tailscale IP |
+   | Share | `NAS` (or whatever share name you set) |
+   | Username | your Samba username |
    | Password | your Samba password |
    | SMB version | SMB2 (or Auto) |
 
@@ -112,7 +112,7 @@ FolderSync automatically syncs selected phone folders to the NAS on a schedule â
    | Account | `Home NAS` |
    | Sync type | **"To remote folder"** (phone â†’ NAS only, for backup) |
    | Local folder | `/sdcard/DCIM/Camera` (your camera folder) |
-   | Remote folder | Browse to `Kingston/Phone Backup/Photos` |
+   | Remote folder | Browse to `NAS/Phone Backup/Photos` |
 
 3. **Scheduling** (optional):
    - Tap **"Scheduling"**
@@ -131,10 +131,10 @@ FolderSync automatically syncs selected phone folders to the NAS on a schedule â
 
 | What | Local Folder | Remote Folder | Sync Type |
 |------|-------------|---------------|-----------|
-| Photo backup | `/sdcard/DCIM` | `Kingston/Phone/Photos` | To remote |
-| WhatsApp backup | `/sdcard/WhatsApp` | `Kingston/Phone/WhatsApp` | To remote |
-| Documents sync | `/sdcard/Documents` | `Kingston/Documents` | Two-way |
-| Music download | `/sdcard/Music` | `Kingston/Music` | To local |
+| Photo backup | `/sdcard/DCIM` | `NAS/Phone/Photos` | To remote |
+| WhatsApp backup | `/sdcard/WhatsApp` | `NAS/Phone/WhatsApp` | To remote |
+| Documents sync | `/sdcard/Documents` | `NAS/Documents` | Two-way |
+| Music download | `/sdcard/Music` | `NAS/Music` | To local |
 
 ---
 
@@ -142,11 +142,11 @@ FolderSync automatically syncs selected phone folders to the NAS on a schedule â
 
 **Cannot connect â€” "Connection failed"**
 - Make sure Tailscale VPN is on and connected (check the Tailscale app)
-- Ping test: install "Ping" app, ping `100.67.250.22`
-- Try connecting on local Wi-Fi first using your home IP (e.g. `192.168.1.105`) to isolate the issue
+- Ping test: install "Ping" app, ping your Pi's Tailscale IP
+- Try connecting on local Wi-Fi first using your Pi's home IP to isolate the issue
 
 **Solid Explorer shows share but files are empty**
-- The share path may be wrong. Check you have the right share name (`Kingston` not `ssd1`)
+- The share path may be wrong. Check you have the right share name (`NAS` not `ssd1`)
 - Try browsing to the Pi IP without specifying the share name to see what shares are visible
 
 **FolderSync shows "No network available"**

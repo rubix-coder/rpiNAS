@@ -60,7 +60,7 @@ Fill in these settings:
 | Setting | What to Enter |
 |---------|--------------|
 | Set hostname | `raspberrypi` (or anything you like, e.g. `nas`) |
-| Set username and password | Username: `bmp` (or your name) / choose a strong password |
+| Set username and password | Username: `nasuser` (or your name) / choose a strong password |
 | Configure wireless LAN | Enter your Wi-Fi name and password |
 | Wireless LAN country | Select your country |
 | Set locale settings | Set your timezone and keyboard layout |
@@ -121,19 +121,19 @@ nmap -sn 192.168.1.0/24 | grep -i raspberry
 
 ## Step 8 — SSH into the Pi
 
-Once you have the IP address (e.g. `192.168.1.105`):
+Once you have the IP address (e.g. `192.168.x.x`):
 
 ### From Linux or macOS:
 ```bash
-ssh bmp@192.168.1.105
+ssh nasuser@192.168.x.x
 # or using hostname:
-ssh bmp@raspberrypi.local
+ssh nasuser@raspberrypi.local
 ```
 
 ### From Windows:
 Open **Command Prompt** or **PowerShell** (press Win+R, type `cmd`, press Enter):
 ```
-ssh bmp@192.168.1.105
+ssh nasuser@192.168.x.x
 ```
 > Windows 10 and 11 include SSH by default. If the command is not found, go to Settings → Apps → Optional Features → Add a feature → OpenSSH Client.
 
@@ -147,7 +147,7 @@ Enter your password when prompted. The password will not appear as you type — 
 
 You should see a prompt like:
 ```
-bmp@raspberrypi:~ $
+nasuser@raspberrypi:~ $
 ```
 
 Congratulations — you are now connected to your Raspberry Pi. Continue to [SSD Mounting](03-ssd-mounting.md) or run the scripts:
@@ -183,6 +183,6 @@ sudo bash scripts/01-initial-setup.sh
   ```bash
   ssh-keygen -R raspberrypi.local
   # or:
-  ssh-keygen -R 192.168.1.105
+  ssh-keygen -R 192.168.x.x
   ```
   Then try SSHing again.

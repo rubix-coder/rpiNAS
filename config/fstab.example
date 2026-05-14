@@ -6,15 +6,15 @@
 #
 # Key options:
 #   nofail       — Pi boots normally even if SSD is unplugged
-#   uid=1000     — your Linux user owns the files (user 'bmp' is typically uid 1000)
-#   gid=1000     — your Linux group (also typically 1000)
+#   uid=1000     — your Linux user owns the files (your user is typically uid 1000)
+#   gid=1000     — your Linux group (your group is also typically 1000)
 #   umask=000    — read/write for everyone (needed for Samba sharing)
 #
 # Verify your entry with: sudo mount -a && df -h /mnt/ssd1
 # ------------------------------------------------------------------
 
-# --- exFAT (most Kingston/portable drives, default format) ---
-UUID=823D-4B9A  /mnt/ssd1  exfat  defaults,nofail,uid=1000,gid=1000,umask=000  0  0
+# --- exFAT (most portable USB drives, default format) ---
+UUID=XXXX-XXXX  /mnt/ssd1  exfat  defaults,nofail,uid=1000,gid=1000,umask=000  0  0
 
 # --- NTFS (Windows-formatted drives) ---
 # UUID=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX  /mnt/ssd1  ntfs-3g  defaults,nofail,uid=1000,gid=1000,umask=000  0  0

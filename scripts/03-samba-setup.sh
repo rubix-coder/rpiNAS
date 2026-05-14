@@ -46,8 +46,8 @@ echo "Configuration:"
 echo ""
 
 # Get share name
-read -rp "Share name (what it appears as on the network) [Kingston]: " SHARE_NAME
-SHARE_NAME="${SHARE_NAME:-Kingston}"
+read -rp "Share name (what it appears as on the network) [NAS]: " SHARE_NAME
+SHARE_NAME="${SHARE_NAME:-NAS}"
 
 # Validate share name (no spaces or special chars)
 if [[ "$SHARE_NAME" =~ [^a-zA-Z0-9_-] ]]; then
@@ -55,7 +55,7 @@ if [[ "$SHARE_NAME" =~ [^a-zA-Z0-9_-] ]]; then
 fi
 
 # Get username
-CURRENT_SUDO_USER="${SUDO_USER:-$(logname 2>/dev/null || echo 'bmp')}"
+CURRENT_SUDO_USER="${SUDO_USER:-$(logname 2>/dev/null || echo 'nasuser')}"
 read -rp "Linux username to share with [$CURRENT_SUDO_USER]: " SAMBA_USER
 SAMBA_USER="${SAMBA_USER:-$CURRENT_SUDO_USER}"
 

@@ -19,8 +19,8 @@ sudo bash scripts/04-tailscale-setup.sh
 Tailscale assigns each of your devices a private IP in the `100.x.x.x` range (called a "Tailscale IP"). All your devices — Pi, laptop, phone — can talk to each other using these IPs, even through firewalls and NAT, as if they were on the same local network.
 
 ```
-[Pi at home]  ←── Tailscale VPN ──→  [Your laptop at work]
-100.67.250.22                          100.x.x.x
+[Pi at home]  ←── Tailscale VPN ──→  [Your device anywhere]
+100.x.x.x                             100.x.x.x
 ```
 
 ---
@@ -80,10 +80,10 @@ tailscale ip -4
 
 Example output:
 ```
-100.67.250.22
+100.x.x.x
 ```
 
-This is the Pi's permanent Tailscale IP. It stays the same even if the Pi's local IP changes. Write it down.
+This is the Pi's permanent Tailscale IP. It stays the same even if the Pi's local IP changes. Write it down — you will use it to connect from all other devices.
 
 You can also see all your Tailscale devices at: **https://login.tailscale.com/admin/machines**
 
@@ -110,15 +110,15 @@ You should see `active (running)`.
 From another device that has Tailscale installed (see Step 6 below), try:
 
 ```bash
-# Ping the Pi over Tailscale:
-ping 100.67.250.22
+# Ping the Pi over Tailscale (replace with your Pi's Tailscale IP):
+ping 100.x.x.x
 
 # SSH over Tailscale:
-ssh bmp@100.67.250.22
+ssh <your-username>@100.x.x.x
 
 # Access the Samba share over Tailscale:
-# Windows: \\100.67.250.22\Kingston
-# Linux: smb://100.67.250.22/Kingston
+# Windows: \\100.x.x.x\NAS
+# Linux: smb://100.x.x.x/NAS
 ```
 
 ---
@@ -157,11 +157,11 @@ sudo tailscale up
 
 Once Tailscale is running on both the Pi and your device, use the Pi's Tailscale IP everywhere you would normally use the local IP:
 
-| What | Local (home only) | Remote (Tailscale) |
-|------|-------------------|--------------------|
-| SSH | `ssh bmp@192.168.1.105` | `ssh bmp@100.67.250.22` |
-| Windows SMB | `\\192.168.1.105\Kingston` | `\\100.67.250.22\Kingston` |
-| Linux SMB | `smb://192.168.1.105/Kingston` | `smb://100.67.250.22/Kingston` |
+| What | Local (home Wi-Fi only) | Remote via Tailscale (anywhere) |
+|------|-------------------------|---------------------------------|
+| SSH | `ssh <user>@192.168.x.x` | `ssh <user>@100.x.x.x` |
+| Windows SMB | `\\192.168.x.x\NAS` | `\\100.x.x.x\NAS` |
+| Linux SMB | `smb://192.168.x.x/NAS` | `smb://100.x.x.x/NAS` |
 
 ---
 

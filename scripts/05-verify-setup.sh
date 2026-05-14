@@ -246,10 +246,10 @@ if [ "$FAIL" -eq 0 ]; then
     echo ""
 
     echo "  Access your NAS:"
-    echo "    Windows  : \\\\${LAN_IP}\\$(testparm -s 2>/dev/null | grep -E '^\[' | grep -v '\[global\]' | tr -d '[]' | head -1 || echo 'Kingston') (local)"
+    echo "    Windows  : \\\\${LAN_IP}\\$(testparm -s 2>/dev/null | grep -E '^\[' | grep -v '\[global\]' | tr -d '[]' | head -1 || echo 'NAS') (local)"
     if [ -n "${TAILSCALE_IP:-}" ]; then
-        echo "    Windows  : \\\\${TAILSCALE_IP}\\$(testparm -s 2>/dev/null | grep -E '^\[' | grep -v '\[global\]' | tr -d '[]' | head -1 || echo 'Kingston') (anywhere)"
-        echo "    SSH      : ssh $(logname 2>/dev/null || echo 'bmp')@${TAILSCALE_IP} (anywhere)"
+        echo "    Windows  : \\\\${TAILSCALE_IP}\\$(testparm -s 2>/dev/null | grep -E '^\[' | grep -v '\[global\]' | tr -d '[]' | head -1 || echo 'NAS') (anywhere)"
+        echo "    SSH      : ssh $(logname 2>/dev/null || echo '<your-username>')@${TAILSCALE_IP} (anywhere)"
     fi
 else
     echo -e "  ${RED}${BOLD}$FAIL check(s) failed. Review the [FAIL] items above and fix them.${NC}"

@@ -134,7 +134,7 @@ echo ""
 
 # ---- Step 8: Show next steps ----
 # Get share name from smb.conf if available
-SHARE_NAME=$(grep -oP '(?<=^\[)[^\]]+' /etc/samba/smb.conf 2>/dev/null | grep -v global | head -1 || echo "Kingston")
+SHARE_NAME=$(grep -oP '(?<=^\[)[^\]]+' /etc/samba/smb.conf 2>/dev/null | grep -v global | head -1 || echo "NAS")
 
 echo ""
 echo "=============================================="
@@ -152,7 +152,7 @@ echo ""
 echo "  Then access your NAS from anywhere:"
 echo "    Windows  : \\\\${TAILSCALE_IP}\\${SHARE_NAME}"
 echo "    Linux    : smb://${TAILSCALE_IP}/${SHARE_NAME}"
-echo "    SSH      : ssh $(logname 2>/dev/null || echo 'bmp')@${TAILSCALE_IP}"
+echo "    SSH      : ssh $(logname 2>/dev/null || echo '<your-username>')@${TAILSCALE_IP}"
 echo ""
 echo "  IMPORTANT: Disable key expiry for persistent access:"
 echo "    1. Go to https://login.tailscale.com/admin/machines"

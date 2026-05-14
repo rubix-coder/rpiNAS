@@ -64,7 +64,7 @@ df -h | grep ssd2
 ### Step 6 — Set Permissions
 
 ```bash
-sudo chown -R bmp:bmp /mnt/ssd2
+sudo chown -R nasuser:nasuser /mnt/ssd2
 sudo chmod -R 0775 /mnt/ssd2
 ```
 
@@ -85,8 +85,8 @@ Add a new share block at the bottom:
    writable = yes
    create mask = 0775
    directory mask = 0775
-   valid users = bmp
-   force user = bmp
+   valid users = nasuser
+   force user = nasuser
 ```
 
 Restart Samba:
@@ -94,7 +94,7 @@ Restart Samba:
 sudo systemctl restart smbd
 ```
 
-Your second drive is now accessible as `\\100.67.250.22\Storage2`.
+Your second drive is now accessible as `\\100.x.x.x\Storage2`.
 
 ---
 
@@ -156,14 +156,14 @@ df -h | grep pool
 
 ### Point Samba at the Pool
 
-In `/etc/samba/smb.conf`, change the `Kingston` share path to:
+In `/etc/samba/smb.conf`, change the `NAS` share path to:
 ```ini
 [NAS]
    path = /mnt/pool
    ...
 ```
 
-Now `\\100.67.250.22\NAS` shows all drives as one combined share. Files are distributed across the physical drives based on available space.
+Now `\\100.x.x.x\NAS` shows all drives as one combined share. Files are distributed across the physical drives based on available space.
 
 ---
 
@@ -171,7 +171,7 @@ Now `\\100.67.250.22\NAS` shows all drives as one combined share. Files are dist
 
 | Device | Typical Mount Point | Samba Share Name |
 |--------|--------------------|--------------------|
-| First SSD | `/mnt/ssd1` | `Kingston` or `Storage1` |
+| First SSD | `/mnt/ssd1` | `NAS` or `Storage1` |
 | Second SSD | `/mnt/ssd2` | `Storage2` |
 | Third SSD | `/mnt/ssd3` | `Storage3` |
 | Pool (merged) | `/mnt/pool` | `NAS` |

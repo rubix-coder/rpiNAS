@@ -52,10 +52,10 @@ Open the Samba configuration file:
 sudo nano /etc/samba/smb.conf
 ```
 
-Scroll to the very bottom of the file and add this block (replace `Kingston` with whatever share name you want, and adjust the path if you mounted your SSD elsewhere):
+Scroll to the very bottom of the file and add this block (replace `NAS` with whatever share name you want, and adjust the path if you mounted your SSD elsewhere):
 
 ```ini
-[Kingston]
+[NAS]
    comment = NAS Storage
    path = /mnt/ssd1
    browseable = yes
@@ -63,15 +63,15 @@ Scroll to the very bottom of the file and add this block (replace `Kingston` wit
    writable = yes
    create mask = 0775
    directory mask = 0775
-   valid users = bmp
-   force user = bmp
+   valid users = nasuser
+   force user = nasuser
 ```
 
 > **Explanation:**
-> - `[Kingston]` — the share name users will see on the network
+> - `[NAS]` — the share name users will see on the network (change to anything you like)
 > - `path` — where the SSD is mounted
-> - `valid users = bmp` — only user `bmp` can access this share
-> - `force user = bmp` — files created via Samba are owned by `bmp`
+> - `valid users = nasuser` — replace `nasuser` with your actual Linux username
+> - `force user = nasuser` — files created via Samba are owned by that user
 
 Save and exit: `Ctrl+X`, `Y`, `Enter`.
 
@@ -79,17 +79,17 @@ Save and exit: `Ctrl+X`, `Y`, `Enter`.
 
 ## Step 4 — Create a Samba Password for Your User
 
-Samba has its own separate password database. Set a password for your user:
+Samba has its own separate password database. Set a password for your user (replace `nasuser` with your actual username):
 
 ```bash
-sudo smbpasswd -a bmp
+sudo smbpasswd -a nasuser
 ```
 
 You will be asked to enter and confirm a password. This is the password you'll use to connect from Windows/Android. It can be different from your SSH/Linux password.
 
 Enable the account:
 ```bash
-sudo smbpasswd -e bmp
+sudo smbpasswd -e nasuser
 ```
 
 ---
@@ -128,9 +128,9 @@ You should see `active (running)` in green.
 
 ## Step 7 — Set Correct Permissions on the SSD
 
-Make sure your user can read and write to the SSD:
+Make sure your user can read and write to the SSD (replace `nasuser` with your username):
 ```bash
-sudo chown -R bmp:bmp /mnt/ssd1
+sudo chown -R nasuser:nasuser /mnt/ssd1
 sudo chmod -R 0775 /mnt/ssd1
 ```
 
@@ -140,47 +140,49 @@ sudo chmod -R 0775 /mnt/ssd1
 
 ## Step 8 — Test from the Pi Itself
 
-You can test the share from the Pi before going to another device:
+You can test the share from the Pi before going to another device (replace `nasuser` with your username):
 ```bash
-smbclient -L localhost -U bmp
+smbclient -L localhost -U nasuser
 ```
 
-Enter your Samba password. You should see the `Kingston` share listed:
+Enter your Samba password. You should see the `NAS` share listed:
 ```
 Sharename    Type    Comment
 ---------    ----    -------
-Kingston     Disk    NAS Storage
+NAS          Disk    NAS Storage
 ```
 
 ---
 
 ## Step 9 — Access from Another Device on the Same Network
 
+Replace `192.168.x.x` with your Pi's actual local IP address (found during [OS setup](02-os-setup.md)).
+
 ### From Linux:
 Open your file manager (Nautilus, Dolphin) and type in the address bar:
 ```
-smb://192.168.1.105/Kingston
+smb://192.168.x.x/NAS
 ```
-Replace `192.168.1.105` with your Pi's IP address. Enter username `bmp` and your Samba password.
+Enter your username and Samba password.
 
 Or mount from terminal:
 ```bash
 sudo apt-get install -y cifs-utils
 sudo mkdir -p /mnt/nas
-sudo mount -t cifs //192.168.1.105/Kingston /mnt/nas -o username=bmp,uid=$(id -u),gid=$(id -g)
+sudo mount -t cifs //192.168.x.x/NAS /mnt/nas -o username=nasuser,uid=$(id -u),gid=$(id -g)
 ```
 
 ### From Windows:
 1. Open **File Explorer**
-2. In the address bar type: `\\192.168.1.105\Kingston`
-3. Press Enter — enter username `bmp` and your Samba password
+2. In the address bar type: `\\192.168.x.x\NAS`
+3. Press Enter — enter your Samba username and password
 4. To map as a permanent drive: right-click "This PC" → "Map network drive"
 
 ### From macOS:
 1. Open **Finder**
 2. Menu → **Go → Connect to Server** (`Cmd+K`)
-3. Enter: `smb://192.168.1.105/Kingston`
-4. Enter username `bmp` and Samba password
+3. Enter: `smb://192.168.x.x/NAS`
+4. Enter your Samba username and password
 
 ---
 
@@ -196,17 +198,17 @@ sudo ufw allow samba
 ## Troubleshooting
 
 **"Access denied" or "Incorrect password"**
-- Make sure you ran `sudo smbpasswd -a bmp` and `sudo smbpasswd -e bmp`
+- Make sure you ran `sudo smbpasswd -a <username>` and `sudo smbpasswd -e <username>`
 - The Samba password is separate from your Linux login password
 
 **Share not visible in network browser**
-- Try connecting directly by IP: `\\192.168.1.x\Kingston` instead of browsing
+- Try connecting directly by IP: `\\192.168.x.x\NAS` instead of browsing
 - Check Samba is running: `sudo systemctl status smbd`
 
 **Can see share but can't write files**
 - Check SSD permissions: `ls -la /mnt/ssd1`
-- Run: `sudo chown -R bmp:bmp /mnt/ssd1 && sudo chmod -R 0775 /mnt/ssd1`
+- Run: `sudo chown -R <username>:<username> /mnt/ssd1 && sudo chmod -R 0775 /mnt/ssd1`
 
 **`testparm` shows errors**
-- Check indentation in smb.conf — the lines under `[Kingston]` must be indented with spaces or tabs
+- Check indentation in smb.conf — the lines under `[NAS]` must be indented with spaces or tabs
 - Make sure there are no typos in option names

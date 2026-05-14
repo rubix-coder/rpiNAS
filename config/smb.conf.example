@@ -31,16 +31,17 @@
 
 
 # --- Primary SSD Share ---
-[Kingston]
-   comment = NAS Storage - Kingston 1TB SSD
+# Replace 'nasuser' with your actual Linux username
+[NAS]
+   comment = NAS Storage - Primary SSD
    path = /mnt/ssd1
    browseable = yes
    read only = no
    writable = yes
    create mask = 0775
    directory mask = 0775
-   valid users = bmp
-   force user = bmp
+   valid users = nasuser
+   force user = nasuser
 
 
 # --- Second SSD Share (uncomment and adjust when you add a second drive) ---
@@ -52,8 +53,8 @@
 #    writable = yes
 #    create mask = 0775
 #    directory mask = 0775
-#    valid users = bmp
-#    force user = bmp
+#    valid users = nasuser
+#    force user = nasuser
 
 
 # --- Read-only Public Share (no password required) ---

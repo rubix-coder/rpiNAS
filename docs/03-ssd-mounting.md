@@ -11,7 +11,7 @@ sudo bash scripts/02-mount-ssd.sh
 
 ## Prerequisites
 
-- You are SSH'd into the Pi as your user (e.g. `bmp`)
+- You are SSH'd into the Pi as your user (e.g. `nasuser`)
 - The USB SSD is plugged into one of the **blue USB 3.0 ports** on the Pi
 - You have run `scripts/01-initial-setup.sh` or manually updated the system
 
@@ -70,7 +70,7 @@ Look at the `FSTYPE` column for your SSD partition (`sda1`). Common values:
 
 Depending on your filesystem type, install the appropriate tools:
 
-**For exFAT (most Kingston/portable drives):**
+**For exFAT (most portable USB drives):**
 ```bash
 sudo apt-get update
 sudo apt-get install -y exfatprogs
@@ -126,10 +126,10 @@ sudo blkid /dev/sda1
 
 Output example:
 ```
-/dev/sda1: UUID="823D-4B9A" TYPE="exfat" PARTUUID="xxxxxxxx-01"
+/dev/sda1: UUID="XXXX-XXXX" TYPE="exfat" PARTUUID="xxxxxxxx-01"
 ```
 
-Copy the UUID value — you need it in the next step. In this example it is `823D-4B9A`.
+Copy the UUID value — you need it in the next step. In this example it is `XXXX-XXXX`.
 
 ---
 
@@ -147,26 +147,26 @@ Open fstab in the nano text editor:
 sudo nano /etc/fstab
 ```
 
-Add this line at the bottom (replace `823D-4B9A` with your actual UUID and `exfat` with your filesystem type):
+Add this line at the bottom (replace `XXXX-XXXX` with your actual UUID and `exfat` with your filesystem type):
 
 **For exFAT:**
 ```
-UUID=823D-4B9A  /mnt/ssd1  exfat  defaults,nofail,uid=1000,gid=1000,umask=000  0  0
+UUID=XXXX-XXXX  /mnt/ssd1  exfat  defaults,nofail,uid=1000,gid=1000,umask=000  0  0
 ```
 
 **For NTFS:**
 ```
-UUID=823D-4B9A  /mnt/ssd1  ntfs-3g  defaults,nofail,uid=1000,gid=1000,umask=000  0  0
+UUID=XXXX-XXXX  /mnt/ssd1  ntfs-3g  defaults,nofail,uid=1000,gid=1000,umask=000  0  0
 ```
 
 **For ext4:**
 ```
-UUID=823D-4B9A  /mnt/ssd1  ext4  defaults,nofail  0  2
+UUID=XXXX-XXXX  /mnt/ssd1  ext4  defaults,nofail  0  2
 ```
 
 > **Explanation of options:**
 > - `nofail` — if the SSD is missing at boot, the Pi still boots normally (very important!)
-> - `uid=1000,gid=1000` — your user owns the files (user `bmp` is usually uid 1000)
+> - `uid=1000,gid=1000` — your user owns the files (user `nasuser` is usually uid 1000)
 > - `umask=000` — everyone can read/write (needed for Samba sharing)
 
 Save and exit nano: press `Ctrl+X`, then `Y`, then `Enter`.
@@ -226,7 +226,7 @@ The filesystem may be corrupted or the wrong type was specified. Check the FSTYP
 - Check if the drive needs its own power (some 3.5" HDDs do — use a powered USB hub)
 
 **Permission denied writing to the SSD**
-- For ext4, run: `sudo chown -R bmp:bmp /mnt/ssd1`
+- For ext4, run: `sudo chown -R nasuser:nasuser /mnt/ssd1`
 - For exFAT/NTFS, make sure `uid=1000,gid=1000,umask=000` is in your fstab entry
 
 **`fstab` entry broke — Pi won't boot**

@@ -47,7 +47,7 @@ A **home NAS (Network Attached Storage)** that:
 | Raspberry Pi 4 Model B (4GB) | $55 – $75 |
 | Official Raspberry Pi power supply (5V 3A, USB-C) | $8 – $12 |
 | MicroSD card (32GB+, Class 10) | $8 – $15 |
-| USB SSD 1TB (e.g. Kingston XS1000) | $70 – $100 |
+| USB SSD 1TB (any brand, USB 3.0+) | $70 – $100 |
 | USB cable (if not included with SSD) | $0 – $10 |
 | **Total hardware** | **~$141 – $212** |
 | All software (Pi OS, Samba, Tailscale) | **Free** |
@@ -124,11 +124,11 @@ bash scripts/05-verify-setup.sh
 
 ---
 
-## Author's Hardware
+## Example Hardware Used
 
 - Raspberry Pi 4 Model B
-- Kingston 1TB XS1000 portable SSD (USB 3.0, red)
-- Lenovo V15 laptop running Ubuntu — used to SSH into the Pi
+- 1TB portable USB SSD (USB 3.0)
+- Linux laptop — used to SSH into the Pi
 - Tailscale for remote access across all devices
 
 ---

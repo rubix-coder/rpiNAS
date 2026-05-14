@@ -8,7 +8,7 @@ This guide sets up access to the NAS from a Windows PC — both on the local net
 
 - Samba is configured on the Pi ([Samba Setup](04-samba-setup.md))
 - Tailscale is installed on the Pi ([Tailscale Setup](05-tailscale-setup.md))
-- You know the Pi's Tailscale IP (e.g. `100.67.250.22`) or local IP (e.g. `192.168.1.105`)
+- You know the Pi's Tailscale IP (shown after running `tailscale ip -4` on the Pi) and/or local IP
 
 ---
 
@@ -22,12 +22,12 @@ Windows has built-in SMB support. No extra software required.
 2. Click in the address bar at the top
 3. Type the path to your NAS share and press Enter:
    ```
-   \\100.67.250.22\Kingston
+   \\100.x.x.x\NAS
    ```
-   _(Use Tailscale IP to access from anywhere, or local IP if on the same Wi-Fi)_
+   _(Replace `100.x.x.x` with your Pi's Tailscale IP, or use the local IP if on the same Wi-Fi)_
 4. A login box will appear:
-   - **Username:** `bmp`
-   - **Password:** your Samba password (set in [Samba Setup](04-samba-setup.md))
+   - **Username:** your Samba username (set during [Samba Setup](04-samba-setup.md))
+   - **Password:** your Samba password
    - Check "Remember my credentials" so you don't have to type it every time
 5. The NAS share opens — you can now copy, paste, and manage files
 
@@ -40,9 +40,9 @@ Mapping creates a drive letter (like `Z:`) that always points to your NAS:
 3. Click **"Map network drive..."**
 4. Set:
    - **Drive:** any letter (e.g. `Z:`)
-   - **Folder:** `\\100.67.250.22\Kingston`
+   - **Folder:** `\\100.x.x.x\NAS`
    - Check **"Reconnect at sign-in"** — this remounts the drive every time you log in
-   - Check **"Connect using different credentials"** if your Windows username differs from `bmp`
+   - Check **"Connect using different credentials"** if your Windows username differs from your Samba username
 5. Click **Finish**, enter your Samba username and password
 6. The drive `Z:` now appears in File Explorer alongside your local drives
 
@@ -60,7 +60,7 @@ If you are not at home and want to reach the NAS from outside your network, you 
 4. Tailscale appears in the system tray (bottom-right corner, near the clock)
 5. Click the Tailscale icon → **Sign in**
 6. Log in with the **same account** you used to set up Tailscale on the Pi
-7. Tailscale connects — you can now reach the Pi at its Tailscale IP (`100.67.250.22`)
+7. Tailscale connects — you can now reach the Pi at its Tailscale IP
 
 ### Firewall Exception for Tailscale (Norton / McAfee / Windows Defender)
 
@@ -100,9 +100,9 @@ FolderSync Desktop automatically syncs folders between your PC and the NAS — l
 2. Go to **Accounts** → **Add account**
 3. Select **SMB / CIFS / Windows Share**
 4. Fill in:
-   - **Host:** `100.67.250.22` (Tailscale IP for remote, or local IP for home only)
-   - **Share:** `Kingston`
-   - **Username:** `bmp`
+   - **Host:** your Pi's Tailscale IP (for remote access) or local IP (for home only)
+   - **Share:** `NAS` (or whatever share name you set)
+   - **Username:** your Samba username
    - **Password:** your Samba password
    - **Domain:** (leave blank)
 5. Click **Test connection** — should say "Connection successful"
@@ -136,13 +136,13 @@ If all three work, your Windows NAS access is fully set up.
 
 ## Troubleshooting
 
-**"Windows cannot access \\100.67.250.22\Kingston"**
+**"Windows cannot access \\100.x.x.x\NAS"**
 - Check Tailscale is connected on your Windows PC (system tray icon)
 - Check Tailscale is running on the Pi: SSH in and run `sudo systemctl status tailscaled`
-- Try pinging the Pi: open Command Prompt and run `ping 100.67.250.22`
+- Try pinging the Pi: open Command Prompt and run `ping 100.x.x.x`
 
 **Login dialog loops (keeps asking for password)**
-- Make sure you are using Samba username `bmp` (not your Windows username)
+- Make sure you are using your Samba username (not your Windows username)
 - In credential manager: Start → type "Credential Manager" → Windows Credentials → remove any old entries for the Pi's IP
 
 **Mapped drive shows disconnected / red X after reboot**
