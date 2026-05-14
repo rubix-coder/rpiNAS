@@ -1,0 +1,29 @@
+# /etc/fstab — SSD Mount Examples for Raspberry Pi NAS
+#
+# Add the appropriate line to the bottom of /etc/fstab on your Pi.
+# Replace the UUID with YOUR drive's UUID (find it with: sudo blkid /dev/sda1)
+# Replace the mount point (/mnt/ssd1, /mnt/ssd2) as needed.
+#
+# Key options:
+#   nofail       — Pi boots normally even if SSD is unplugged
+#   uid=1000     — your Linux user owns the files (user 'bmp' is typically uid 1000)
+#   gid=1000     — your Linux group (also typically 1000)
+#   umask=000    — read/write for everyone (needed for Samba sharing)
+#
+# Verify your entry with: sudo mount -a && df -h /mnt/ssd1
+# ------------------------------------------------------------------
+
+# --- exFAT (most Kingston/portable drives, default format) ---
+UUID=823D-4B9A  /mnt/ssd1  exfat  defaults,nofail,uid=1000,gid=1000,umask=000  0  0
+
+# --- NTFS (Windows-formatted drives) ---
+# UUID=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX  /mnt/ssd1  ntfs-3g  defaults,nofail,uid=1000,gid=1000,umask=000  0  0
+
+# --- ext4 (Linux native — best performance) ---
+# UUID=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX  /mnt/ssd1  ext4  defaults,nofail  0  2
+
+# --- Second SSD (add a new line for each additional drive) ---
+# UUID=YYYYYYYY-YYYY-YYYY-YYYY-YYYYYYYYYYYY  /mnt/ssd2  ext4  defaults,nofail  0  2
+
+# --- FAT32 (older drives) ---
+# UUID=ZZZZ-ZZZZ  /mnt/ssd1  vfat  defaults,nofail,uid=1000,gid=1000,umask=000  0  0

@@ -1,0 +1,66 @@
+# /etc/samba/smb.conf — Samba Configuration Example for Raspberry Pi NAS
+#
+# This is a minimal, working Samba config for a home NAS.
+# The full default config is at /etc/samba/smb.conf after installing Samba.
+# This file shows the [global] section and one or more share sections.
+#
+# To apply: copy the share block(s) to the bottom of /etc/samba/smb.conf
+# To verify: run 'testparm' after editing
+# To apply changes: sudo systemctl restart smbd nmbd
+# ------------------------------------------------------------------
+
+[global]
+   workgroup = WORKGROUP
+   server string = Raspberry Pi NAS
+   server role = standalone server
+   log file = /var/log/samba/log.%m
+   max log size = 1000
+   logging = file
+   panic action = /usr/share/samba/panic-action %d
+   passdb backend = tdbsam
+   obey pam restrictions = yes
+   unix password sync = yes
+   passwd program = /usr/bin/passwd %u
+   passwd chat = *Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n *password\supdated\ssuccessfully* .
+   pam password change = yes
+   map to guest = bad user
+   # SMBv2 minimum for security (do not allow SMBv1)
+   min protocol = SMB2
+   # Improve performance on local networks
+   socket options = TCP_NODELAY IPTOS_LOWDELAY
+
+
+# --- Primary SSD Share ---
+[Kingston]
+   comment = NAS Storage - Kingston 1TB SSD
+   path = /mnt/ssd1
+   browseable = yes
+   read only = no
+   writable = yes
+   create mask = 0775
+   directory mask = 0775
+   valid users = bmp
+   force user = bmp
+
+
+# --- Second SSD Share (uncomment and adjust when you add a second drive) ---
+# [Storage2]
+#    comment = Second SSD
+#    path = /mnt/ssd2
+#    browseable = yes
+#    read only = no
+#    writable = yes
+#    create mask = 0775
+#    directory mask = 0775
+#    valid users = bmp
+#    force user = bmp
+
+
+# --- Read-only Public Share (no password required) ---
+# Uncomment this if you want a share anyone on the network can read
+# [Public]
+#    comment = Public Read-Only
+#    path = /mnt/ssd1/public
+#    browseable = yes
+#    read only = yes
+#    guest ok = yes
