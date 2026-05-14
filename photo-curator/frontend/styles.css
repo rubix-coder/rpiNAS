@@ -1,0 +1,210 @@
+/* Photo Curator — custom styles layered on top of Tailwind */
+
+/* ── Wizard step buttons ─────────────────────────────────────────────────── */
+.wizard-step-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s;
+  min-width: 80px;
+}
+.wizard-step-btn:hover { background: #f3f4f6; }
+.wizard-step-btn.active .step-num { background: #3b82f6; color: white; }
+.wizard-step-btn.completed .step-num { background: #10b981; color: white; }
+.step-num {
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: #e5e7eb;
+  font-weight: 700;
+  font-size: 13px;
+  color: #6b7280;
+  transition: background 0.2s, color 0.2s;
+}
+.step-label {
+  font-size: 11px;
+  color: #6b7280;
+  white-space: nowrap;
+}
+.wizard-step-btn.active .step-label { color: #3b82f6; font-weight: 600; }
+.wizard-step-btn.completed .step-label { color: #10b981; }
+.wizard-connector { transition: background 0.3s; }
+.wizard-connector.done { background: #10b981; }
+
+/* ── Panels ──────────────────────────────────────────────────────────────── */
+.wizard-panel { animation: fadeIn 0.2s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* ── Buttons ─────────────────────────────────────────────────────────────── */
+.btn-primary {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-primary:hover:not(:disabled) { background: #2563eb; }
+.btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.btn-secondary {
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-secondary:hover { background: #e5e7eb; }
+
+/* ── Gallery grid ────────────────────────────────────────────────────────── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.photo-card {
+  position: relative;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  border: 2px solid transparent;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.2s;
+  cursor: pointer;
+}
+.photo-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+.photo-card.decision-approved { border-color: #10b981; }
+.photo-card.decision-rejected { border-color: #ef4444; opacity: 0.5; }
+.photo-card.decision-skipped { border-color: #d1d5db; opacity: 0.65; }
+
+.photo-card img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  display: block;
+}
+
+.card-overlay {
+  position: absolute;
+  top: 6px; right: 6px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+
+.decision-badge {
+  font-size: 14px;
+  background: rgba(0,0,0,0.6);
+  border-radius: 6px;
+  padding: 2px 6px;
+  color: white;
+  backdrop-filter: blur(4px);
+}
+.decision-badge.approved { background: rgba(16,185,129,0.85); }
+.decision-badge.rejected { background: rgba(239,68,68,0.85); }
+
+.card-footer {
+  padding: 6px 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.card-stars { color: #f59e0b; font-size: 12px; letter-spacing: -1px; }
+.card-actions {
+  display: flex;
+  gap: 4px;
+}
+.card-action-btn {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.1s;
+}
+.card-action-btn.keep  { background: #d1fae5; color: #065f46; }
+.card-action-btn.skip  { background: #f3f4f6; color: #4b5563; }
+.card-action-btn.remove { background: #fee2e2; color: #991b1b; }
+.card-action-btn:hover.keep   { background: #6ee7b7; }
+.card-action-btn:hover.skip   { background: #e5e7eb; }
+.card-action-btn:hover.remove { background: #fca5a5; }
+
+/* ── Score bars ──────────────────────────────────────────────────────────── */
+.score-bar-track {
+  height: 6px;
+  background: #f3f4f6;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.score-bar {
+  height: 100%;
+  background: #3b82f6;
+  border-radius: 999px;
+  transition: width 0.5s ease;
+}
+
+/* ── Filter tabs ─────────────────────────────────────────────────────────── */
+.filter-tab {
+  background: white;
+  border: none;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #6b7280;
+  transition: background 0.1s, color 0.1s;
+}
+.filter-tab:hover { background: #f9fafb; }
+.filter-tab.active { background: #eff6ff; color: #2563eb; font-weight: 600; }
+
+/* ── Album image rows ────────────────────────────────────────────────────── */
+.album-image-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  background: #f9fafb;
+  border-radius: 10px;
+  cursor: grab;
+}
+.album-image-row:active { cursor: grabbing; }
+.album-image-row.drag-over { background: #dbeafe; }
+.album-thumb {
+  width: 56px; height: 42px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+.album-image-name { font-size: 12px; color: #374151; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ── Keyboard hint pills ─────────────────────────────────────────────────── */
+.kbd-hint {
+  display: inline-block;
+  background: #e5e7eb;
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-size: 11px;
+  font-family: monospace;
+  color: #374151;
+  border-bottom: 2px solid #d1d5db;
+}
+
+/* ── Print size selector ─────────────────────────────────────────────────── */
+.print-size-select {
+  font-size: 11px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 2px 6px;
+  background: white;
+  color: #374151;
+}
