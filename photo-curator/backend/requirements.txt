@@ -1,0 +1,19 @@
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+sqlalchemy[asyncio]==2.0.35
+aiosqlite==0.20.0
+pydantic-settings==2.4.0
+
+# GPU scoring
+torch==2.4.1
+open-clip-torch==2.26.1
+
+# Image processing
+Pillow==10.4.0
+pillow-heif==0.18.0
+opencv-python-headless==4.10.0.84
+imagehash==4.3.1
+numpy==1.26.4
+
+# Export metadata
+piexif==1.1.3

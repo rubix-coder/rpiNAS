@@ -1,0 +1,64 @@
+version: "3.9"
+
+services:
+  photo-curator:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: photo-curator:latest
+    container_name: photo-curator
+    restart: unless-stopped
+
+    # ── NVIDIA GPU passthrough ────────────────────────────────────────────────
+    # Requires: nvidia-container-toolkit installed on the Docker host.
+    # Setup: sudo nvidia-ctk runtime configure --runtime=docker && sudo systemctl restart docker
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+    # If the deploy block doesn't work on your Docker version, uncomment this instead:
+    # runtime: nvidia
+
+    environment:
+      # GPU/CPU mode — change to "cpu" if you don't have a GPU
+      - DEVICE=cuda
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+
+      # Override these or set them in a .env file alongside docker-compose.yml
+      - IMAGE_DIR=${IMAGE_DIR:-/mnt/nas/photos}
+      - DB_PATH=${DB_PATH:-/data/photo_curator.db}
+      - BATCH_SIZE=${BATCH_SIZE:-32}
+      - EXPORT_DPI=${EXPORT_DPI:-300}
+
+    volumes:
+      # ── Photos (read-only — we never modify your originals) ────────────────
+      # Map your actual NAS/local photo directory here:
+      - ${PHOTO_DIR:-/mnt/ssd1/photos}:/mnt/nas/photos:ro
+
+      # ── Export output (writable) ───────────────────────────────────────────
+      - ${EXPORT_DIR:-/mnt/ssd1/exports}:/mnt/nas/exports
+
+      # ── App data: SQLite DB + thumbnail cache (named volume) ───────────────
+      - photo_curator_data:/data
+
+      # ── Optional: mount pre-downloaded aesthetic model weights ─────────────
+      # - ./models:/models:ro
+
+    ports:
+      - "${APP_PORT:-8000}:8000"
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s   # allow time for CLIP model to load
+
+volumes:
+  photo_curator_data:
+    driver: local
